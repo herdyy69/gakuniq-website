@@ -1,0 +1,46 @@
+@tailwind base;
+
+a {
+  @apply text-slate-800;
+  text-decoration: none;
+}
+h1 {
+  @apply text-lg;
+}
+
+
+
+@tailwind components;
+
+@tailwind utilities;
+
+.content p {
+  @apply my-6;
+}
+
+.content ul {
+  @apply my-6;
+}
+
+body {
+  @apply bg-gray-200;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    @apply text-base;
+  }
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+make scrollbar transparent and smooth
+
+
+#my-scrollbar {
+  width: 500px;
+  height: 500px;
+  overflow: auto;
+}
