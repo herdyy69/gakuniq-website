@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
 import {AiFillFacebook, AiFillInstagram, AiFillTwitterCircle} from 'react-icons/ai';
+import {RiWhatsappFill} from 'react-icons/ri';
 
 const Footer = () => {
   return (
@@ -14,10 +15,6 @@ const Footer = () => {
               </h1>
               <div className="hidden md:flex flex-col">
                 <span className="text-sm py-1">Informasi</span>
-                <span className="text-sm py-1">Pencari Lokasi Toko</span>
-                <span className="text-sm py-1">Pembelian Jumlah Besar</span>
-                <span className="text-sm py-1">Layanan Alterasi</span>
-                <span className="text-sm py-1">Layanan Kirim Kado</span>
               </div>
             </div>
             <div className="flex flex-col mx-3">
@@ -35,7 +32,6 @@ const Footer = () => {
             <div className="flex flex-col mx-3">
               <h1 className="text-sm md:text-lg font-extrabold mb-2">AKUN</h1>
               <div className="hidden md:flex flex-col">
-                <span className="text-sm py-1">Membership</span>
                 <span className="text-sm py-1">Profil</span>
                 <span className="text-sm py-1">Kebijakan Privasi</span>
                 <span className="text-sm py-1">Voucher</span>
@@ -74,6 +70,7 @@ const Footer = () => {
                 <AiFillFacebook className="text-2xl mx-1" />
                 <AiFillInstagram className="text-2xl mx-1" />
                 <AiFillTwitterCircle className="text-2xl mx-1" />
+                <RiWhatsappFill className="text-2xl mx-1" />
               </div>
             </div>
           </div>

@@ -167,7 +167,9 @@ const Transaksi = () => {
               </div>
               <div className="flex flex-row items-center justify-center mr-2">
                 {item.jumlah} x Rp{''}
-                {item.total_harga}
+                {item.total_harga
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
               </div>
             </div>
           ))}
@@ -194,6 +196,7 @@ const Transaksi = () => {
             <div className="flex flex-row items-center justify-between w-full mt-2 border-t-[1px] pt-2">
               <h1 className="text-xl font-medium text-slate-50">Total</h1>
               <h1 className="text-xl font-medium text-slate-50">
+                Rp{'  '}
                 {total
                   ? total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
                   : ''}

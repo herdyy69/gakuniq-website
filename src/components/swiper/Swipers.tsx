@@ -15,12 +15,12 @@ const Swipers = () => {
       desc: 'JANGAN LEWATKAN KOLEKSI SEASON MUSIM DINGIN KAMI!',
       background:
         'https://cdn.pixabay.com/photo/2017/06/20/22/14/man-2425121_960_720.jpg',
-      href: '#',
+      href: '/category/katalog',
     },
     {
       id: 2,
       title: 'NEW YEAR NEW OUTFIT',
-      desc: 'blablablablabla',
+      desc: '/category/katalog',
       background:
         'https://cdn.pixabay.com/photo/2017/08/01/11/48/woman-2564660_960_720.jpg',
       href: '#',

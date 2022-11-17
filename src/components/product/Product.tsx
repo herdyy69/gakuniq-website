@@ -30,6 +30,9 @@ const Product = () => {
       .post('/api/wishlist/create', { produk_id: id })
       .then((res) => {
         setConfirmation(res.data.message);
+        setTimeout(() => {
+          router.reload();
+        }, 1000);
       })
       .catch((err) => {
         setErr(err.response.data.message);
@@ -167,7 +170,7 @@ const Product = () => {
                       if (user) {
                         wishlist?.find((x) => x.produk_id === item.id)
                           ? setConfirmation('Produk sudah ada di wishlist')
-                          : addToWishlist(item.id) || router.reload();
+                          : addToWishlist(item.id);
                       } else {
                         setConfirmation('Silahkan login terlebih dahulu');
                       }

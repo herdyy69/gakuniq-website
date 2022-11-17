@@ -165,7 +165,11 @@ const Cart = () => {
               SUBTOTAL
             </h1>
             <h1 className="sm:text-sm text-xs font-medium text-slate-50">
-              Rp. {total.reduce((a, b) => parseInt(a) + parseInt(b), 0)}
+              Rp.{' '}
+              {total
+                .reduce((a, b) => parseInt(a) + parseInt(b), 0)
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
             </h1>
           </div>
 

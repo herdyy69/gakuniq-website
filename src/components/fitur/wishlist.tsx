@@ -5,13 +5,14 @@
 /* eslint-disable tailwindcss/no-custom-classname */
 /* eslint-disable tailwindcss/migration-from-tailwind-2 */
 import Cookies from 'js-cookie';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 import axios from '@/lib/axios';
 
 const Wishlist = () => {
-  // const router = useRouter();
+  const router = useRouter();
   const token = Cookies.get('token');
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
@@ -61,6 +62,9 @@ const Wishlist = () => {
       .delete(`/api/wishlist/${id}`)
       .then((res) => {
         setConfirmation('Berhasil menghapus produk dari wishlist');
+        setTimeout(() => {
+          router.push('/');
+        }, 1000);
       })
       .catch((err) => {
         console.log(err);
@@ -72,6 +76,9 @@ const Wishlist = () => {
       .get('/api/delete/wishlist')
       .then((res) => {
         setConfirmation('Berhasil menghapus semua produk dari wishlist');
+        setTimeout(() => {
+          router.push('/');
+        }, 1000);
       })
       .catch((err) => {
         console.log(err);
@@ -123,7 +130,16 @@ const Wishlist = () => {
                   className="h-16 w-16 rounded-md"
                 />
                 <div className="flex flex-col items-start justify-center ml-2">
-                  <h1 className="sm:text-sm text-xs font-medium text-slate-50">
+                  <h1
+                    onClick={(e) => {
+                      e.preventDefault();
+                      router.push({
+                        pathname: `/product/${item.name}`,
+                        query: { id: item.id },
+                      });
+                    }}
+                    className="sm:text-sm text-xs font-medium text-blue-400 cursor-pointer hover:text-blue-500"
+                  >
                     {
                       products?.find((produk) => produk.id === item.produk_id)
                         ?.nama_produk
@@ -131,10 +147,10 @@ const Wishlist = () => {
                   </h1>
                   <h3 className="sm:text-xs text-[11px] font-medium text-slate-50">
                     Rp {'  '}
-                    {
-                      products?.find((produk) => produk.id === item.produk_id)
-                        ?.harga
-                    }
+                    {products
+                      ?.find((produk) => produk.id === item.produk_id)
+                      ?.harga?.toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
                   </h3>
                 </div>
               </div>
@@ -178,12 +194,7 @@ const Wishlist = () => {
           </button>
 
           <button
-            onClick={() =>
-              deleteAllWishlist() &&
-              setTimeout(() => {
-                router.reload();
-              }, 1000)
-            }
+            onClick={() => deleteAllWishlist()}
             className="btn btn-outline btn-sm sm:btn-md w-full mt-2"
           >
             <h1 className="sm:text-sm text-xs font-medium text-slate-50">

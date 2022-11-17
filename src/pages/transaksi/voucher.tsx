@@ -90,7 +90,7 @@ const VoucherTransaksi = () => {
                 <h3 className="sm:text-xs text-[11px] font-medium text-slate-50">
                   Rp{' '}
                   {voucher?.harga
-                    .toString()
+                    ?.toString()
                     .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
                 </h3>
               </div>
@@ -105,7 +105,7 @@ const VoucherTransaksi = () => {
               <h1 className="text-xl font-medium text-slate-50">
                 Rp{' '}
                 {voucher?.harga
-                  .toString()
+                  ?.toString()
                   .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
               </h1>
             </div>

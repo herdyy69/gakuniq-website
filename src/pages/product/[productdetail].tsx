@@ -350,11 +350,7 @@ const DetailProduct = () => {
                   >
                     {/* nama user */}
                     <h1 className="text-lg font-medium text-slate-800 uppercase">
-                      {/* {user?.map((dataUser) =>
-                    dataUser.id === review?.user_id
-                      ? `${dataUser?.nama_depan} ${dataUser?.nama_belakang}`
-                      : ''
-                  )}{' '} */}
+                      {item?.user?.nama_depan} {item?.user?.nama_belakang}
                     </h1>
                     <span className="text-sm font-normal text-slate-800">
                       {item?.komen}

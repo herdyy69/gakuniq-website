@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable @typescript-eslint/dot-notation */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 /* eslint-disable tailwindcss/migration-from-tailwind-2 */
@@ -13,6 +14,7 @@
 /* eslint-disable simple-import-sort/imports */
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useState, useEffect } from 'react';
+import { ReactSearchAutocomplete } from 'react-search-autocomplete';
 
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -36,17 +38,26 @@ const Navbar = () => {
   const [user, setUser] = useState();
   const [cart, setCart] = useState();
   const [wishlist, setWishlist] = useState();
+  const [products, setProducts] = useState();
 
   const [showCart, setShowCart] = useState(false);
   const [showWishlist, setShowWishlist] = useState(false);
   const getProfiles = async () => {
+    await axios
+      .get('/api/produk')
+      .then((res) => {
+        setProducts(res.data.data);
+      })
+      .catch((err) => {
+        setErr(err);
+      });
     await axios
       .get('/api/user')
       .then((res) => {
         setUser(res.data.data[0]);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
     await axios
       .get('/api/keranjang')
@@ -54,7 +65,7 @@ const Navbar = () => {
         setCart(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
     await axios
       .get('/api/wishlist')
@@ -62,7 +73,7 @@ const Navbar = () => {
         setWishlist(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
   const Logout = async () => {
@@ -73,13 +84,72 @@ const Navbar = () => {
         Cookies.remove('token');
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
+  const product = products?.map((product) => {
+    return {
+      id: product.id,
+      name: product.nama_produk,
+    };
+  });
+  const items = [
+    {
+      id: 0,
+      name: 'Cobol',
+    },
+    {
+      id: 1,
+      name: 'JavaScript',
+    },
+    {
+      id: 2,
+      name: 'Basic',
+    },
+    {
+      id: 3,
+      name: 'PHP',
+    },
+    {
+      id: 4,
+      name: 'Java',
+    },
+  ];
+  const formatResult = (item) => {
+    return (
+      <>
+        <span style={{ display: 'none', textAlign: 'left' }}>
+          id: {item?.id}
+        </span>
+        <span
+          onClick={() => router.push(`/produk/${item?.id}`)}
+          className="cursor-pointer"
+          style={{ display: 'block', textAlign: 'left' }}
+        >
+          {item?.name}
+        </span>
+      </>
+    );
+  };
+
+  const onSubmit = (item) => {
+    router.push({
+      pathname: `/product/${item.name}`,
+      query: { id: item.id },
+    });
+    // setTimeout(() => {
+    //   router.reload();
+    // }, 1000);
+  };
   useEffect(() => {
     getProfiles();
+    formatResult();
   }, []);
+
+  // filter nama_produk
+  const dataSerch = product?.map((item) => item);
+  console.log(dataSerch);
 
   const cartLength = cart?.length;
   const wishlistLength = wishlist?.length;
@@ -169,6 +239,7 @@ const Navbar = () => {
           X
         </button>
       ) : null}
+
       <div className="navbar flex flex-row bg-gray-100 hover:bg-gray-200 border-2 border-slate-500 shadow-md rounded-lg w-[96%] mx-auto mt-3 sticky top-0 z-50">
         <div className="flex-1">
           <LinkHover
@@ -205,7 +276,23 @@ const Navbar = () => {
           </div>
         </div>
         <div className="flex-none">
-          <div className="dropdown dropdown-left">
+          <div style={{ width: 200 }}>
+            <ReactSearchAutocomplete
+              onSelect={onSubmit}
+              includeScore={true}
+              includeMatches={true}
+              isCaseSensitive={false}
+              minMatchCharLength={2}
+              sortFn={(a, b) => {
+                if (a.match < b.match) return -1;
+                if (a.match > b.match) return 1;
+                return 0;
+              }}
+              items={dataSerch}
+              formatResult={formatResult}
+            />
+          </div>
+          {/* <div className="dropdown dropdown-left">
             <label tabIndex={0} className="btn btn-ghost btn-circle">
               <AiOutlineSearch className="w-6 h-6" />
               <div
@@ -221,7 +308,7 @@ const Navbar = () => {
                 </span>
               </div>
             </label>
-          </div>
+          </div> */}
           <label
             onClick={(e) => {
               e.preventDefault();
