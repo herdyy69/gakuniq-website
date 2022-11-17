@@ -86,7 +86,7 @@ const DetailProduct = () => {
       .then((res) => {
         setConfirmation('Berhasil menambahkan produk ke keranjang');
         setTimeout(() => {
-          router.reload();
+          router.push('/category/katalog');
         }, 1000);
       })
       .catch((err) => {

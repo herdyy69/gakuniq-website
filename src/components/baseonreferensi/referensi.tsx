@@ -117,7 +117,7 @@ const Referensi = () => {
               <div className="flex flex-col justify-center items-start mx-1">
                 <h1 className="text-base font-bold text-slate-800">
                   {item.nama_produk}
-                  <span className="text-xs text-gray-700">
+                  <span className="text-xs text-gray-700 ml-1">
                     (
                     {
                       categories?.find((x) => x.id === item.sub_kategori_id)
@@ -178,7 +178,7 @@ const Referensi = () => {
                       if (user) {
                         wishlist?.find((x) => x.produk_id === item.id)
                           ? setConfirmation('Produk sudah ada di wishlist')
-                          : addToWishlist(item.id) || router.reload();
+                          : addToWishlist(item.id) && router.reload();
                       } else {
                         setConfirmation('Silahkan login terlebih dahulu');
                       }

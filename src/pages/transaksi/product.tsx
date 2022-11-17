@@ -177,7 +177,7 @@ const Transaksi = () => {
               <h1 className="text-xl font-medium text-slate-50">Subtotal</h1>
               <h1 className="text-xl font-medium text-slate-50">
                 {' '}
-                Rp.{' '}
+                Rp{' '}
                 {totalPrice
                   ? totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
                   : ''}
@@ -187,7 +187,8 @@ const Transaksi = () => {
               <h1 className="text-xl font-medium text-slate-50">Diskon</h1>
               <h1 className="text-xl font-medium text-slate-50">
                 {' '}
-                Rp. {discount} ({totalDiscount}%)
+                Rp {discount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')} (
+                {totalDiscount}%)
               </h1>
             </div>
             <div className="flex flex-row items-center justify-between w-full mt-2 border-t-[1px] pt-2">
@@ -247,7 +248,7 @@ const Transaksi = () => {
                   Nama Penerima
                 </h1>
                 <h1 className="text-sm font-medium text-slate-50">
-                  Herdyansah
+                  {user?.nama_depan} {user?.nama_belakang}
                 </h1>
               </div>
               <div className="flex flex-row items-center justify-between w-full">
@@ -255,21 +256,23 @@ const Transaksi = () => {
                   Nomor Telepon
                 </h1>
                 <h1 className="text-sm font-medium text-slate-50">
-                  082218330015
+                  {user?.no_telepon}
                 </h1>
               </div>
               <div className="flex flex-row items-center justify-between w-full">
                 <h1 className="text-sm font-medium text-slate-50">
                   Label Alamat
                 </h1>
-                <h1 className="text-sm font-medium text-slate-50">Rumah</h1>
+                <h1 className="text-sm font-medium text-slate-50">
+                  {user?.label_alamat}
+                </h1>
               </div>
               <div className="flex flex-row items-center justify-between w-full">
                 <h1 className="text-sm font-medium text-slate-50">
                   Kota-Kecamatan
                 </h1>
                 <h1 className="text-sm font-medium text-slate-50">
-                  Bandung, Pameungpeuk
+                  {user?.kota_kecamatan}
                 </h1>
               </div>
               <div className="flex flex-row items-center justify-between w-full">
@@ -277,7 +280,7 @@ const Transaksi = () => {
                   Alamat Lengkap
                 </h1>
                 <h1 className="text-sm font-medium text-slate-50">
-                  WKWKWKWKWKWK LAND
+                  {user?.alamat_lengkap}
                 </h1>
               </div>
             </div>
@@ -290,7 +293,6 @@ const Transaksi = () => {
                       alert('Saldo GAKUNIQ WALLET anda tidak mencukup');
                     } else {
                       Checkout();
-                      router.reload();
                     }
                   } else {
                     Checkout();

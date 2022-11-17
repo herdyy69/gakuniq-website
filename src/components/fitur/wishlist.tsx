@@ -140,7 +140,12 @@ const Wishlist = () => {
               </div>
               <div className="flex flex-row items-center justify-center mr-2">
                 <button
-                  onClick={() => deleteWishlist(item.id)}
+                  onClick={() =>
+                    deleteWishlist(item.id) &&
+                    setTimeout(() => {
+                      router.reload();
+                    }, 1000)
+                  }
                   className="btn btn-circle btn-outline btn-xs sm:btn-sm"
                 >
                   <svg
@@ -173,7 +178,12 @@ const Wishlist = () => {
           </button>
 
           <button
-            onClick={() => deleteAllWishlist()}
+            onClick={() =>
+              deleteAllWishlist() &&
+              setTimeout(() => {
+                router.reload();
+              }, 1000)
+            }
             className="btn btn-outline btn-sm sm:btn-md w-full mt-2"
           >
             <h1 className="sm:text-sm text-xs font-medium text-slate-50">
