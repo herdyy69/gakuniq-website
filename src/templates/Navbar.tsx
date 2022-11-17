@@ -114,12 +114,12 @@ const Navbar = () => {
     {
       id: 1,
       title: 'PRIA',
-      link: '/pria',
+      link: '/category/pria',
     },
     {
       id: 2,
       title: 'WANITA',
-      link: '/wanita',
+      link: '/category/wanita',
     },
     {
       id: 3,

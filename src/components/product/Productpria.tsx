@@ -11,7 +11,7 @@ import { TbDiscount2 } from 'react-icons/tb';
 import Alert from '@/components/Alert';
 import axios from '@/lib/axios';
 
-const Product = () => {
+const ProductPria = () => {
   const router = useRouter();
   const token = Cookies.get('token');
   if (token) {
@@ -75,13 +75,9 @@ const Product = () => {
     (product) => product.kategori_id === 1
   );
 
-  const filterProductsWanita = products?.filter(
-    (product) => product.kategori_id === 2
-  );
   useEffect(() => {
     getProduct();
     filterProductsPria;
-    filterProductsWanita;
   }, []);
 
   return (
@@ -93,7 +89,7 @@ const Product = () => {
       )}
       {products ? (
         <div className="flex flex-row flex-wrap items-stretch self-auto justify-start">
-          {products?.map((item) => (
+          {filterProductsPria?.map((item) => (
             <div
               key={item.id}
               className="flex flex-col justify-start items-start bg-gray-400 p-4 rounded-lg max-w-[20rem] md:max-w-[15rem] border-2 m-2"
@@ -189,4 +185,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default ProductPria;
