@@ -130,9 +130,10 @@ const Wishlist = () => {
                     }
                   </h1>
                   <h3 className="sm:text-xs text-[11px] font-medium text-slate-50">
+                    Rp {'  '}
                     {
                       products?.find((produk) => produk.id === item.produk_id)
-                        ?.deskripsi
+                        ?.harga
                     }
                   </h3>
                 </div>

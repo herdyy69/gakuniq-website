@@ -206,7 +206,6 @@ const MyProfiles = () => {
         (item2) => item2.voucher_id === item.voucher_id
       ) === index
   );
-  console.log(voucherUserFilter);
 
   return (
     <Main
@@ -415,328 +414,342 @@ const MyProfiles = () => {
       </div>
       {/* END MODAL FITUR TOP UP */}
 
-      <div className="flex flex-col items-center justify-start py-[2rem] bg-slate-800 mx-10">
-        <div className="flex flex-row items-center justify-center w-full">
-          <img
-            src="/assets/images/logo.png"
-            alt="ada"
-            className="max-w-[225px] h-auto border-2 border-slate-50 rounded-full p-3 mx-2"
-          />
-          <div className="flex flex-col mx-2">
-            <h1 className="text-2xl font-medium text-slate-50 mt-4">
-              {user?.nama_depan} {user?.nama_belakang}
-            </h1>
-            <span className="text-sm font-normal text-slate-50 mt-0">
-              {user?.email}
-            </span>
-            <div className="flex flex-row items-center justify-start mt-1">
-              <span className="text-sm font-normal text-slate-50 mt-0">
-                <CiWallet className="inline-block mr-2 text-2xl" />
-              </span>
-              <span className="text-sm font-normal text-slate-50 mt-0">
-                Rp {user?.saldo}
-              </span>
-              <label
-                htmlFor="my-modal-3"
-                className="btn btn-ghost btn-outline btn-xs ml-2 rounded-none"
-              >
-                Top Up
-              </label>
-            </div>
-            <div className="flex flex-row items-center justify-start mt-1">
-              <span className="text-xs font-normal text-slate-50 mt-0 mr-2">
-                Point
-              </span>
-              <span className="text-xs font-normal text-slate-50 mt-0">
-                Rp {user?.score}
-              </span>
-            </div>
-            <div className="flex flex-row items-center justify-center mt-1">
-              <label
-                htmlFor="my-modal-1"
-                className="btn btn-outline btn-sm mt-2 text-xs font-medium text-slate-50 mr-1"
-              >
-                Edit Profile
-              </label>
-              <button
-                onClick={handleLogout}
-                className="btn btn-outline btn-sm mt-2 text-xs font-medium text-slate-50"
-              >
-                Logout
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="flex flex-col sm:flex-row items-center sm:items-start justify-center py-[2rem] bg-slate-800 mx-10 min-h-8 mt-2 p-2">
-        <div className="flex flex-col items-center justify-center w-[50vw] bg-slate-100 min-h-8 mx-1 p-3 mt-1 rounded-lg">
-          <h1 className="text-lg font-bold text-slate-800 mb-3">
-            Riwayat Transaksi
-          </h1>
-          {history?.length === 0 && (
-            <div className="flex flex-col items-center justify-center w-full h-full">
-              <span className="text-sm font-normal text-slate-800 mt-0">
-                Empty
-              </span>
-            </div>
-          )}
-          {history?.map((item, index) => (
-            <div
-              key={index}
-              className="flex flex-row items-center justify-between w-full bg-transparent border-2 border-slate-800 min-h-8 mt-1 px-3 py-4"
-            >
-              <div className="flex flex-row items-center justify-start">
-                <img
-                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${item.gambar_produk}`}
-                  alt="gambar"
-                  className="h-16 w-16 rounded-md shadow-md"
-                />
-                <div className="flex flex-col items-start justify-center ml-2 text-slate-800">
-                  <h1 className="sm:text-sm text-xs font-medium">
-                    {item.nama_produk}
-                  </h1>
-                  <h3 className="sm:text-xs text-[11px] font-medium">
-                    {item.jumlah} Barang | Rp.
-                    {item.total_harga}
-                  </h3>
-                  <h4 className="text-[11px] font-medium">
-                    G{item.kode_transaksi} - {item.status}
-                  </h4>
+      {user ? (
+        <>
+          <div className="flex flex-col items-center justify-start py-[2rem] bg-slate-800 mx-10">
+            <div className="flex flex-row items-center justify-center w-full">
+              <img
+                src="/assets/images/logo.png"
+                alt="ada"
+                className="max-w-[225px] h-auto border-2 border-slate-50 rounded-full p-3 mx-2"
+              />
+              <div className="flex flex-col mx-2">
+                <h1 className="text-2xl font-medium text-slate-50 mt-4">
+                  {user?.nama_depan} {user?.nama_belakang}
+                </h1>
+                <span className="text-sm font-normal text-slate-50 mt-0">
+                  {user?.email}
+                </span>
+                <div className="flex flex-row items-center justify-start mt-1">
+                  <span className="text-sm font-normal text-slate-50 mt-0">
+                    <CiWallet className="inline-block mr-2 text-2xl" />
+                  </span>
+                  <span className="text-sm font-normal text-slate-50 mt-0">
+                    Rp {user?.saldo}
+                  </span>
+                  <label
+                    htmlFor="my-modal-3"
+                    className="btn btn-ghost btn-outline btn-xs ml-2 rounded-none"
+                  >
+                    Top Up
+                  </label>
+                </div>
+                <div className="flex flex-row items-center justify-start mt-1">
+                  <span className="text-xs font-normal text-slate-50 mt-0 mr-2">
+                    Point
+                  </span>
+                  <span className="text-xs font-normal text-slate-50 mt-0">
+                    Rp {user?.score}
+                  </span>
+                </div>
+                <div className="flex flex-row items-center justify-center mt-1">
+                  <label
+                    htmlFor="my-modal-1"
+                    className="btn btn-outline btn-sm mt-2 text-xs font-medium text-slate-50 mr-1"
+                  >
+                    Edit Profile
+                  </label>
+                  <button
+                    onClick={handleLogout}
+                    className="btn btn-outline btn-sm mt-2 text-xs font-medium text-slate-50"
+                  >
+                    Logout
+                  </button>
                 </div>
               </div>
-              <div className="flex flex-row items-center justify-center mr-2">
-                {item.status === 'proses' ? (
-                  <div className="flex flex-row flex-nowrap items-center justify-between w-full">
-                    <button
-                      className="btn btn-ghost bg-green-500 text-sm font-bold rounded-md p-2 mx-1 text-white"
-                      onClick={() => {
-                        axios
-                          .put(`/api/history/${item.id}/edit`, {
-                            status: 'sukses',
-                          })
-                          .then((res) => {
-                            router.reload();
-                          })
-                          .catch((err) => {
-                            console.log(err);
-                          });
-                      }}
-                    >
-                      SELESAI
-                    </button>
-                    <button
-                      className="btn btn-ghost bg-red-500 text-sm font-bold rounded-md p-2 mx-1 text-white"
-                      onClick={() => {
-                        axios
-                          .post(`/api/refund_produk/create/${item.id}`, {
-                            alasan: 'Tidak sesuai',
-                            transaksi_id: item.id,
-                          })
-                          .then((res) => {
-                            // router.reload();
-                          })
-                          .catch((err) => {
-                            console.log(err);
-                          });
-                      }}
-                    >
-                      REFUND
-                    </button>
-                  </div>
-                ) : item.status === 'sukses' ? (
-                  // button for modal review
-                  <>
-                    <label
-                      htmlFor="my-modal-6"
-                      className="btn btn-ghost bg-green-500 text-sm font-bold rounded-md p-2 mx-1 text-white"
-                    >
-                      REVIEW
-                    </label>
-                    <input
-                      type="checkbox"
-                      id="my-modal-6"
-                      className="modal-toggle"
+            </div>
+          </div>
+          <div className="flex flex-col sm:flex-row items-center sm:items-start justify-center py-[2rem] bg-slate-800 mx-10 min-h-8 mt-2 p-2">
+            <div className="flex flex-col items-center justify-center w-[50vw] bg-slate-100 min-h-8 mx-1 p-3 mt-1 rounded-lg">
+              <h1 className="text-lg font-bold text-slate-800 mb-3">
+                Riwayat Transaksi
+              </h1>
+              {history?.length === 0 && (
+                <div className="flex flex-col items-center justify-center w-full h-full">
+                  <span className="text-sm font-normal text-slate-800 mt-0">
+                    Empty
+                  </span>
+                </div>
+              )}
+              {history?.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex flex-row items-center justify-between w-full bg-transparent border-2 border-slate-800 min-h-8 mt-1 px-3 py-4"
+                >
+                  <div className="flex flex-row items-center justify-start">
+                    <img
+                      src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${item.gambar_produk1}`}
+                      alt="gambar"
+                      className="h-16 w-16 rounded-md shadow-md"
                     />
-                    <div className="modal modal-bottom sm:modal-middle bg-slate-800 bg-opacity-50">
-                      <div className="modal-box bg-slate-600 text-slate-800">
-                        <h3 className="text-lg font-bold text-center">
-                          Review Produk
-                        </h3>
-                        <div className="rating">
-                          <input
-                            type="radio"
-                            name="rating-1"
-                            className="mask mask-star"
-                            onClick={() => setRating('Gak Recommended Banget')}
-                          />
-                          <input
-                            type="radio"
-                            name="rating-1"
-                            className="mask mask-star"
-                            onClick={() => setRating('Gak Recommended')}
-                          />
-                          <input
-                            type="radio"
-                            name="rating-1"
-                            className="mask mask-star"
-                            onClick={() => setRating('Biasa Saja')}
-                          />
-                          <input
-                            type="radio"
-                            name="rating-1"
-                            className="mask mask-star"
-                            onClick={() => setRating('Recommended')}
-                          />
-                          <input
-                            type="radio"
-                            name="rating-1"
-                            className="mask mask-star"
-                            onClick={() => setRating('Recommended Banget')}
-                          />
-                        </div>
-
+                    <div className="flex flex-col items-start justify-center ml-2 text-slate-800">
+                      <h1 className="sm:text-sm text-xs font-medium">
+                        {item.nama_produk}
+                      </h1>
+                      <h3 className="sm:text-xs text-[11px] font-medium">
+                        {item.jumlah} Barang | Rp.
+                        {item.total_harga}
+                      </h3>
+                      <h4 className="text-[11px] font-medium">
+                        G{item.kode_transaksi} - {item.status}
+                      </h4>
+                    </div>
+                  </div>
+                  <div className="flex flex-row items-center justify-center mr-2">
+                    {item.status === 'proses' ? (
+                      <div className="flex flex-row flex-nowrap items-center justify-between w-full">
+                        <button
+                          className="btn btn-ghost bg-green-500 text-sm font-bold rounded-md p-2 mx-1 text-white"
+                          onClick={() => {
+                            axios
+                              .put(`/api/history/${item.id}/edit`, {
+                                status: 'sukses',
+                              })
+                              .then((res) => {
+                                setTimeout(() => {
+                                  router.reload();
+                                }, 1000);
+                              })
+                              .catch((err) => {
+                                console.log(err);
+                              });
+                          }}
+                        >
+                          SELESAI
+                        </button>
+                        <button
+                          className="btn btn-ghost bg-red-500 text-sm font-bold rounded-md p-2 mx-1 text-white"
+                          onClick={() => {
+                            axios
+                              .post(`/api/refund_produk/create/${item.id}`, {
+                                alasan: 'Tidak sesuai',
+                                transaksi_id: item.id,
+                              })
+                              .then((res) => {
+                                setTimeout(() => {
+                                  router.reload();
+                                }, 1000);
+                              })
+                              .catch((err) => {
+                                console.log(err);
+                              });
+                          }}
+                        >
+                          REFUND
+                        </button>
+                      </div>
+                    ) : item.status === 'sukses' ? (
+                      // button for modal review
+                      <>
+                        <label
+                          htmlFor="my-modal-6"
+                          className="btn btn-ghost bg-green-500 text-sm font-bold rounded-md p-2 mx-1 text-white"
+                        >
+                          REVIEW
+                        </label>
                         <input
-                          type="text"
-                          className="input input-bordered w-full mt-2 bg-slate-400 text-slate-800"
-                          placeholder="Tulis review anda disini"
-                          value={review}
-                          onChange={(e) => setReview(e.target.value)}
+                          type="checkbox"
+                          id="my-modal-6"
+                          className="modal-toggle"
                         />
-                        <div className="modal-action">
-                          <label
-                            onClick={() => {
-                              axios
-                                .post(`/api/review_produk/create`, {
-                                  transaksi_id: item.id,
-                                  status: rating,
-                                  komen: review,
-                                })
-                                .then((res) => {
+                        <div className="modal modal-bottom sm:modal-middle bg-slate-800 bg-opacity-50">
+                          <div className="modal-box bg-slate-600 text-slate-800">
+                            <h3 className="text-lg font-bold text-center">
+                              Review Produk
+                            </h3>
+                            <div className="rating">
+                              <input
+                                type="radio"
+                                name="rating-1"
+                                className="mask mask-star"
+                                onClick={() =>
+                                  setRating('Gak Recommended Banget')
+                                }
+                              />
+                              <input
+                                type="radio"
+                                name="rating-1"
+                                className="mask mask-star"
+                                onClick={() => setRating('Gak Recommended')}
+                              />
+                              <input
+                                type="radio"
+                                name="rating-1"
+                                className="mask mask-star"
+                                onClick={() => setRating('Biasa Saja')}
+                              />
+                              <input
+                                type="radio"
+                                name="rating-1"
+                                className="mask mask-star"
+                                onClick={() => setRating('Recommended')}
+                              />
+                              <input
+                                type="radio"
+                                name="rating-1"
+                                className="mask mask-star"
+                                onClick={() => setRating('Recommended Banget')}
+                              />
+                            </div>
+
+                            <input
+                              type="text"
+                              className="input input-bordered w-full mt-2 bg-slate-400 text-slate-800"
+                              placeholder="Tulis review anda disini"
+                              value={review}
+                              onChange={(e) => setReview(e.target.value)}
+                            />
+                            <div className="modal-action">
+                              <label
+                                onClick={() => {
                                   axios
-                                    .put(`/api/history/${item.id}/edit`, {
-                                      status: 'sukses',
+                                    .post(`/api/review_produk/create`, {
+                                      transaksi_id: item.id,
+                                      status: rating,
+                                      komen: review,
                                     })
                                     .then((res) => {
-                                      router.reload(); // router.reload()
+                                      axios
+                                        .put(`/api/history/${item.id}/edit`, {
+                                          status: 'sukses',
+                                        })
+                                        .then((res) => {
+                                          setTimeout(() => {
+                                            router.reload();
+                                          }, 1000);
+                                        })
+                                        .catch((err) => {
+                                          console.log(err);
+                                        });
                                     })
                                     .catch((err) => {
                                       console.log(err);
                                     });
-                                })
-                                .catch((err) => {
-                                  console.log(err);
-                                });
-                            }}
-                            htmlFor="my-modal-6"
-                            className="btn"
-                          >
-                            KIRIM
-                          </label>
+                                }}
+                                htmlFor="my-modal-6"
+                                className="btn"
+                              >
+                                KIRIM
+                              </label>
+                            </div>
+                          </div>
                         </div>
+                      </>
+                    ) : (
+                      <span className="text-xs font-normal text-slate-800 mt-0">
+                        {item.status}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex flex-col items-center justify-center w-[50vw] bg-slate-100 min-h-8 mx-1 p-3 mt-1 rounded-lg">
+              <h1 className="text-lg font-bold text-slate-800 mb-3">
+                Voucher Saya
+              </h1>
+              {voucherUserFilter?.length < 1 ? (
+                <div className="flex flex-col items-center justify-center w-full h-16 bg-slate-500 rounded-lg">
+                  <span className="text-lg font-bold">Voucher Kosong</span>
+                </div>
+              ) : (
+                voucherUserFilter?.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex flex-row items-center justify-between w-full bg-transparent border-2 border-slate-800 min-h-8 mt-1 px-3 py-1 rounded-lg"
+                  >
+                    <div className="flex flex-row items-center justify-start">
+                      <div className="flex flex-col items-start justify-center ml-2 text-slate-800">
+                        <h1 className="sm:text-sm text-xs font-medium">
+                          {item?.voucher?.kode_voucher}
+                        </h1>
+                        <h3 className="sm:text-xs text-[11px] font-medium">
+                          {' '}
+                          {item?.voucher?.diskon} %
+                        </h3>
+                        <h4 className="text-[11px] font-medium">
+                          {item.voucher.waktu_berakhir}
+                        </h4>
                       </div>
                     </div>
-                  </>
-                ) : (
-                  <span className="text-xs font-normal text-slate-800 mt-0">
-                    {item.status}
-                  </span>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="flex flex-col items-center justify-center w-[50vw] bg-slate-100 min-h-8 mx-1 p-3 mt-1 rounded-lg">
-          <h1 className="text-lg font-bold text-slate-800 mb-3">
-            Voucher Saya
-          </h1>
-          {voucherUserFilter?.length < 1 ? (
-            <div className="flex flex-col items-center justify-center w-full h-16 bg-slate-500 rounded-lg">
-              <span className="text-lg font-bold">Voucher Kosong</span>
-            </div>
-          ) : (
-            voucherUserFilter?.map((item) => (
-              <div
-                key={item.id}
-                className="flex flex-row items-center justify-between w-full bg-transparent border-2 border-slate-800 min-h-8 mt-1 px-3 py-1 rounded-lg"
-              >
-                <div className="flex flex-row items-center justify-start">
-                  <div className="flex flex-col items-start justify-center ml-2 text-slate-800">
-                    <h1 className="sm:text-sm text-xs font-medium">
-                      {item?.voucher?.kode_voucher}
-                    </h1>
-                    <h3 className="sm:text-xs text-[11px] font-medium">
-                      {' '}
-                      {item?.voucher?.diskon} %
-                    </h3>
-                    <h4 className="text-[11px] font-medium">
-                      {item.voucher.waktu_berakhir}
-                    </h4>
+                    <div className="flex flex-row items-center justify-center mr-2">
+                      <span className="text-sm font-normal text-slate-800 mt-0">
+                        {item.voucher.status}
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <div className="flex flex-row items-center justify-center mr-2">
-                  <span className="text-sm font-normal text-slate-800 mt-0">
-                    {item.voucher.status}
-                  </span>
-                </div>
-              </div>
-            ))
-          )}
+                ))
+              )}
 
-          <h1 className="text-lg font-bold text-slate-800 mb-3 mt-4">
-            Beli Voucher
-          </h1>
-          {voucher
-            ?.sort((a, b) => (a.label === 'gratis' ? -1 : 1))
-            .map((item) => (
-              <div
-                key={item.id}
-                className="flex flex-row items-center justify-between w-full bg-transparent border-2 border-slate-800 min-h-8 mt-1 px-3 py-1 rounded-lg"
-              >
-                <div className="flex flex-row items-center justify-start">
-                  <div className="flex flex-col items-start justify-center ml-2 text-slate-800">
-                    <h1 className="sm:text-sm text-xs font-medium">
-                      {item.kode_voucher}
-                    </h1>
-                    <h3 className="sm:text-xs text-[11px] font-medium">
+              <h1 className="text-lg font-bold text-slate-800 mb-3 mt-4">
+                Beli Voucher
+              </h1>
+              {voucher
+                ?.sort((a, b) => (a.label === 'gratis' ? -1 : 1))
+                .map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex flex-row items-center justify-between w-full bg-transparent border-2 border-slate-800 min-h-8 mt-1 px-3 py-1 rounded-lg"
+                  >
+                    <div className="flex flex-row items-center justify-start">
+                      <div className="flex flex-col items-start justify-center ml-2 text-slate-800">
+                        <h1 className="sm:text-sm text-xs font-medium">
+                          {item.kode_voucher}
+                        </h1>
+                        <h3 className="sm:text-xs text-[11px] font-medium">
+                          {item.label === 'gratis' ? (
+                            <span>Free</span>
+                          ) : (
+                            <span>Rp {item.harga}</span>
+                          )}
+                        </h3>
+                        <h4 className="text-[11px] font-medium">
+                          {item.diskon} %{' - '}
+                          {item.status}
+                        </h4>
+                      </div>
+                    </div>
+                    <div className="flex flex-row items-center justify-center mr-2">
                       {item.label === 'gratis' ? (
-                        <span>Free</span>
+                        <span className="text-xs font-bold">
+                          {item.waktu_berakhir}
+                        </span>
                       ) : (
-                        <span>Rp {item.harga}</span>
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            router.push({
+                              pathname: '/transaksi/voucher',
+                              query: {
+                                id: item.id,
+                              },
+                            });
+                          }}
+                          className="modal-button btn btn-ghost bg-[#f4f4f4] text-[#000] rounded-md px-2 py-0 text-xs font-bold"
+                        >
+                          BUY
+                        </button>
                       )}
-                    </h3>
-                    <h4 className="text-[11px] font-medium">
-                      {item.diskon} %{' - '}
-                      {item.status}
-                    </h4>
+                    </div>
                   </div>
-                </div>
-                <div className="flex flex-row items-center justify-center mr-2">
-                  {item.label === 'gratis' ? (
-                    <span className="text-xs font-bold">
-                      {item.waktu_berakhir}
-                    </span>
-                  ) : (
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        router.push({
-                          pathname: '/transaksi/voucher',
-                          query: {
-                            id: item.id,
-                          },
-                        });
-                      }}
-                      className="modal-button btn btn-ghost bg-[#f4f4f4] text-[#000] rounded-md px-2 py-0 text-xs font-bold"
-                    >
-                      BUY
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
-        </div>
-      </div>
+                ))}
+            </div>
+          </div>
+        </>
+      ) : (
+        <h1 className="text-xl text-slate-800 font-bold ">Loading...</h1>
+      )}
     </Main>
   );
 };

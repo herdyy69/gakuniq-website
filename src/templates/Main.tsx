@@ -42,6 +42,12 @@ const Main = (props: IMainProps) => {
           </div>
           <div className="flex-none">
             <button
+              onClick={() => setAlert('')}
+              className="btn btn-sm btn-ghost glass"
+            >
+              Close
+            </button>
+            <button
               onClick={(e) => {
                 e.preventDefault();
                 router.push('/login');
@@ -49,12 +55,6 @@ const Main = (props: IMainProps) => {
               className="btn btn-sm btn-primary"
             >
               Login
-            </button>
-            <button
-              onClick={() => setAlert('')}
-              className="btn btn-sm btn-ghost glass"
-            >
-              Close
             </button>
           </div>
         </div>

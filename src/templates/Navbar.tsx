@@ -94,7 +94,7 @@ const Navbar = () => {
         {
           id: 2,
           title: 'Transaksi',
-          link: '/transaksi',
+          link: '/my-account/profiles',
         },
         {
           id: 3,

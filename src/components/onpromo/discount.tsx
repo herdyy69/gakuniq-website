@@ -88,99 +88,104 @@ const Discount = () => {
       ) : (
         ''
       )}
-      <div className="flex flex-row flex-wrap items-stretch self-auto justify-start">
-        {products &&
-          products
-            .filter((item) => item.diskon > 0)
-            .map((item) => (
-              <div
-                key={item.id}
-                className="flex flex-col justify-start items-start bg-gray-400 p-4 rounded-lg max-w-[20rem] md:max-w-[15rem] border-2 m-2"
-              >
-                <img
-                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${item.gambar_produk1}`}
-                  alt={item.gambar_produk1}
-                  className="md:w-48 rounded-md my-1 mb-2 mx-auto"
-                />
-                <div className="flex flex-col justify-center items-start mx-1">
-                  <h1 className="text-base font-bold text-slate-800">
-                    {item.nama_produk}
-                    <span className="text-xs text-gray-700">
-                      (
-                      {
-                        categories?.find((x) => x.id === item.sub_kategori_id)
-                          ?.sub_kategori
-                      }
-                      )
-                    </span>
-                  </h1>
-                  <span className="text-sm text-slate-800">
-                    {item.description}
-                  </span>
-                  <div className="flex flex-row justify-start items-center mt-2">
-                    <span className="text-sm text-slate-800 font-bold">
-                      Rp{'  '}
-                      {item.diskon > 0
-                        ? Math.round(
-                            item.harga - (item.harga * item.diskon) / 100
-                          )
-                            .toString()
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, '.')
-                        : item.harga
-                            .toString()
-                            .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
-                    </span>
-                  </div>
-                  {item.diskon > 0 && (
-                    <div className="flex flex-row justify-center items-center mt-3">
-                      <span className="text-sm text-slate-800 font-bold">
-                        <TbDiscount2 className="text-xl text-slate-800 font-bold" />
+      {products ? (
+        <div className="flex flex-row flex-wrap items-stretch self-auto justify-start">
+          {products &&
+            products
+              .filter((item) => item.diskon > 0)
+              .map((item) => (
+                <div
+                  key={item.id}
+                  className="flex flex-col justify-start items-start bg-gray-400 p-4 rounded-lg max-w-[20rem] md:max-w-[15rem] border-2 m-2"
+                >
+                  <img
+                    src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${item.gambar_produk1}`}
+                    alt={item.gambar_produk1}
+                    className="md:w-48 rounded-md my-1 mb-2 mx-auto"
+                  />
+                  <div className="flex flex-col justify-center items-start mx-1">
+                    <h1 className="text-base font-bold text-slate-800">
+                      {item.nama_produk}
+                      <span className="text-xs text-gray-700 ml-1">
+                        (
+                        {
+                          categories?.find((x) => x.id === item.sub_kategori_id)
+                            ?.sub_kategori
+                        }
+                        )
                       </span>
+                    </h1>
+                    <span className="text-sm text-slate-800">
+                      {item.description}
+                    </span>
+                    <div className="flex flex-row justify-start items-center mt-2">
                       <span className="text-sm text-slate-800 font-bold">
-                        {item.diskon}%
-                      </span>
-                      <span className="text-sm text-slate-800 font-bold line-through mx-2">
                         Rp{'  '}
-                        {item.harga
-                          .toString()
-                          .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+                        {item.diskon > 0
+                          ? Math.round(
+                              item.harga - (item.harga * item.diskon) / 100
+                            )
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+                          : item.harga
+                              .toString()
+                              .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
                       </span>
                     </div>
-                  )}
-                  <div className="flex flex-row justify-center items-center">
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        router.push({
-                          pathname: `/product/${item.name}`,
-                          query: { id: item.id },
-                        });
-                      }}
-                      className="btn md:btn-sm btn-md rounded-none glass bg-slate-300 text-slate-800 mt-3"
-                    >
-                      View <GrFormView className="inline-block ml-1 w-6 h-6" />
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        if (user) {
-                          wishlist?.find((x) => x.produk_id === item.id)
-                            ? setConfirmation('Produk sudah ada di wishlist')
-                            : addToWishlist(item.id);
-                        } else {
-                          setConfirmation('Silahkan login terlebih dahulu');
-                        }
-                      }}
-                      className="btn md:btn-sm btn-md rounded-none glass bg-slate-400 text-slate-800 mt-3"
-                    >
-                      Wishlist{' '}
-                      <GiSelfLove className="inline-block ml-1 w-5 h-5" />
-                    </button>
+                    {item.diskon > 0 && (
+                      <div className="flex flex-row justify-center items-center mt-3">
+                        <span className="text-sm text-slate-800 font-bold">
+                          <TbDiscount2 className="text-xl text-slate-800 font-bold" />
+                        </span>
+                        <span className="text-sm text-slate-800 font-bold">
+                          {item.diskon}%
+                        </span>
+                        <span className="text-sm text-slate-800 font-bold line-through mx-2">
+                          Rp{'  '}
+                          {item.harga
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
+                        </span>
+                      </div>
+                    )}
+                    <div className="flex flex-row justify-center items-center">
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          router.push({
+                            pathname: `/product/${item.name}`,
+                            query: { id: item.id },
+                          });
+                        }}
+                        className="btn md:btn-sm btn-md rounded-none glass bg-slate-300 text-slate-800 mt-3"
+                      >
+                        View{' '}
+                        <GrFormView className="inline-block ml-1 w-6 h-6" />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          if (user) {
+                            wishlist?.find((x) => x.produk_id === item.id)
+                              ? setConfirmation('Produk sudah ada di wishlist')
+                              : addToWishlist(item.id) || router.reload();
+                          } else {
+                            setConfirmation('Silahkan login terlebih dahulu');
+                          }
+                        }}
+                        className="btn md:btn-sm btn-md rounded-none glass bg-slate-400 text-slate-800 mt-3"
+                      >
+                        Wishlist{' '}
+                        <GiSelfLove className="inline-block ml-1 w-5 h-5" />
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-      </div>
+              ))}
+        </div>
+      ) : (
+        <h1 className="text-xl text-slate-800 font-bold ">Loading...</h1>
+      )}
     </>
   );
 };
