@@ -232,6 +232,7 @@ const MyProfiles = () => {
       ) === index
   );
 
+  const [alasans, setAlasans] = useState();
   return (
     <Main
       meta={
@@ -589,26 +590,78 @@ const MyProfiles = () => {
                           >
                             SELESAI
                           </button>
-                          <button
+                          <input
+                            type="checkbox"
+                            id="my-modal-refund"
+                            className="modal-toggle"
+                          />
+                          <div className="modal">
+                            <form
+                              onSubmit={() => {
+                                axios
+                                  .post(
+                                    `/api/refund_produk/create/${item.id}`,
+                                    {
+                                      alasan: alasans,
+                                      transaksi_id: item.id,
+                                    }
+                                  )
+                                  .then((res) => {
+                                    setTimeout(() => {
+                                      router.reload();
+                                    }, 1000);
+                                  })
+                                  .catch((err) => {
+                                    console.log(err);
+                                  });
+                              }}
+                            >
+                              <div className="modal-box relative bg-slate-200 w-full">
+                                <label
+                                  htmlFor="my-modal-refund"
+                                  className="btn btn-sm btn-circle absolute right-2 top-2 glass"
+                                >
+                                  ✕
+                                </label>
+                                <h3 className="text-lg font-bold">
+                                  Refund Produk
+                                </h3>
+                                <span className="text-sm text-gray-500">
+                                  Silakan isi alasan untuk refund produk
+                                </span>
+                                <div className="flex flex-row items-center">
+                                  <input
+                                    value={alasans}
+                                    onChange={(e) => setAlasans(e.target.value)}
+                                    type="text"
+                                    className="input input-bordered input-sm bg-slate-50 w-full"
+                                    placeholder="Ketik alasan..."
+                                  />
+                                </div>
+
+                                <div className="flex flex-row items-center mt-3">
+                                  <label
+                                    htmlFor="my-modal-refund"
+                                    className="btn bg-red-500 text-white border-none btn-sm rounded-none"
+                                  >
+                                    Batal
+                                  </label>
+                                  <button
+                                    type="submit"
+                                    className="btn btn-primary btn-sm rounded-none"
+                                  >
+                                    Konfirmasi
+                                  </button>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                          <label
                             className="btn btn-ghost bg-red-500 text-sm btn-sm font-bold rounded-none p-2 mx-1 text-white"
-                            onClick={() => {
-                              axios
-                                .post(`/api/refund_produk/create/${item.id}`, {
-                                  alasan: 'Tidak sesuai',
-                                  transaksi_id: item.id,
-                                })
-                                .then((res) => {
-                                  setTimeout(() => {
-                                    router.reload();
-                                  }, 1000);
-                                })
-                                .catch((err) => {
-                                  console.log(err);
-                                });
-                            }}
+                            htmlFor="my-modal-refund"
                           >
                             REFUND
-                          </button>
+                          </label>
                         </div>
                       ) : item.status === 'sukses' ? (
                         // button for modal review
