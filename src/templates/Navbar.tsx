@@ -147,9 +147,7 @@ const Navbar = () => {
     formatResult();
   }, []);
 
-  // filter nama_produk
   const dataSerch = product?.map((item) => item);
-  console.log(dataSerch);
 
   const cartLength = cart?.length;
   const wishlistLength = wishlist?.length;
