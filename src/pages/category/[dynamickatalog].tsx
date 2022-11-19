@@ -31,6 +31,7 @@ const DynamicKategori = () => {
   const [err, setErr] = useState();
   const [confirmation, setConfirmation] = useState();
   const [clicked, setClicked] = useState(false);
+  const [title, setTitle] = useState();
   const addToWishlist = async (id) => {
     await axios
       .post('/api/wishlist/create', { produk_id: id })
@@ -84,6 +85,7 @@ const DynamicKategori = () => {
       .get('/api/produk')
       .then((res) => {
         setProducts(res.data.data);
+        setTitle('Semua Produk');
         setClicked('SEMUA');
       })
       .catch((err) => {
@@ -106,7 +108,7 @@ const DynamicKategori = () => {
     <Main
       meta={
         <Meta
-          title="Gakunique - Wanita"
+          title={`Gakunique - ${title}`}
           description="Gakunique is a Next.js starter template with Tailwind CSS, TypeScript, and ESLint."
         />
       }
@@ -134,6 +136,7 @@ const DynamicKategori = () => {
                   .then((res) => {
                     setProducts(res.data.data);
                     setClicked(item.title);
+                    setTitle('Semua Produk');
                   })
                   .catch((err) => {
                     setErr(err);
@@ -162,6 +165,7 @@ const DynamicKategori = () => {
                       .then((res) => {
                         setProducts(res.data.data);
                         setClicked(item.name);
+                        setTitle(item.name);
                       })
                       .catch((err) => {
                         setErr(err);
