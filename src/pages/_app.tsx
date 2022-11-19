@@ -2,6 +2,7 @@ import '../styles/global.css';
 import '../styles/swipers.css';
 import 'animate.css';
 
+import TawkMessengerReact from '@tawk.to/tawk-messenger-react';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -54,6 +55,10 @@ const App = ({ Component, pageProps }) => {
 
   return (
     <>
+      <TawkMessengerReact
+        propertyId="63765154daff0e1306d7f24d"
+        widgetId="1gi32rd0v"
+      />
       <Loader />
       <Component {...pageProps} />
       {!isOnline && (

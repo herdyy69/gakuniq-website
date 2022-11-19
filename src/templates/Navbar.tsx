@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable @typescript-eslint/dot-notation */
 /* eslint-disable @typescript-eslint/no-unused-expressions */
@@ -29,6 +30,7 @@ import Wishlist from '@/components/fitur/wishlist';
 import axios from '@/lib/axios';
 import Cookies from 'js-cookie';
 import LinkHover from '../components/LinkHover';
+import DynamicKategori from '@/categories/[dynamic]';
 
 const Navbar = () => {
   const router = useRouter();
@@ -39,17 +41,26 @@ const Navbar = () => {
   const [cart, setCart] = useState();
   const [wishlist, setWishlist] = useState();
   const [products, setProducts] = useState();
+  const [kategori, setKategori] = useState();
 
   const [showCart, setShowCart] = useState(false);
   const [showWishlist, setShowWishlist] = useState(false);
   const getProfiles = async () => {
+    await axios
+      .get('/api/kategori')
+      .then((res) => {
+        setKategori(res.data.data);
+      })
+      .catch((err) => {
+        // setErr(err);
+      });
     await axios
       .get('/api/produk')
       .then((res) => {
         setProducts(res.data.data);
       })
       .catch((err) => {
-        setErr(err);
+        // setErr(err);
       });
     await axios
       .get('/api/user')
@@ -76,6 +87,8 @@ const Navbar = () => {
         // console.log(err);
       });
   };
+  // console.log(kategori);
+
   const Logout = async () => {
     await axios
       .post(`/api/logout/${user.id}`)
@@ -178,23 +191,14 @@ const Navbar = () => {
         },
       ];
 
-  const menuKategori = [
+  const katalog = [
     {
       id: 1,
-      title: 'PRIA',
-      link: '/category/pria',
-    },
-    {
-      id: 2,
-      title: 'WANITA',
-      link: '/category/wanita',
-    },
-    {
-      id: 3,
       title: 'KATALOG',
-      link: '/category/katalog',
+      link: '/category/catalogue',
     },
   ];
+
   return (
     <>
       {showCart ? (
@@ -260,15 +264,16 @@ const Navbar = () => {
             />
           </LinkHover>
           <div className="flex-none p-2 hidden sm:flex">
-            {menuKategori.map((item) => (
+            {katalog?.map((item) => (
               <LinkHover
                 key={item.id}
                 href={{
                   pathname: item.link,
                 }}
                 active={router.pathname === item.link}
+                className="menu-item"
               >
-                <span className="menu-item">{item.title}</span>
+                <span className="text-sm">{item.title}</span>
               </LinkHover>
             ))}
           </div>
@@ -380,7 +385,7 @@ const Navbar = () => {
       {/* kategori */}
       <div className="kategori sm:hidden flex flex-row items-center justify-center bg-gray-100 hover:bg-gray-200 border-2 border-slate-500 shadow-md rounded-lg w-[96%] mx-auto mt-1 sticky top-0 z-10">
         <div className="flex-none p-2">
-          {menuKategori.map((item) => (
+          {kategori?.map((item) => (
             <LinkHover
               key={item.id}
               href={{

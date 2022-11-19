@@ -542,7 +542,7 @@ const MyProfiles = () => {
                 </div>
               )}
               {history ? (
-                history.map((item, index) => (
+                history?.map((item, index) => (
                   <div
                     key={index}
                     className="flex flex-row items-center justify-between w-full bg-transparent border-2 border-slate-800 min-h-8 mt-1 px-3 py-4"
@@ -558,13 +558,17 @@ const MyProfiles = () => {
                           {item.nama_produk}
                         </h1>
                         <h3 className="sm:text-xs text-[11px] font-medium">
-                          {item.keranjang.jumlah} Barang | Rp{'  '}
+                          {item?.keranjang?.jumlah} Barang | Rp{'  '}
                           {item.total_harga
                             .toString()
                             .replace(/\B(?=(\d{3})+(?!\d))/g, '.')}
                         </h3>
                         <h4 className="text-[11px] font-medium">
-                          G{item.kode_transaksi} - {item.status}
+                          {item.kode_transaksi} - {item.status}
+                        </h4>
+                        <h4 className="text-[11px] font-medium">
+                          New, {item?.keranjang?.warna},{' '}
+                          {item?.keranjang?.ukuran}
                         </h4>
                       </div>
                     </div>
