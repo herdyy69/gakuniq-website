@@ -1,8 +1,3 @@
-/* eslint-disable prefer-template */
-/* eslint-disable no-restricted-syntax */
-/* eslint-disable guard-for-in */
-/* eslint-disable unused-imports/no-unused-imports */
-/* eslint-disable import/no-duplicates */
 /* eslint-disable @typescript-eslint/dot-notation */
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react/jsx-key */
@@ -11,15 +6,9 @@
 /* eslint-disable func-names */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @next/next/inline-script-id */
-import * as firebase from "firebase/app";
-import { initializeApp } from "firebase/app";
-import { getDatabase } from "firebase/database";
-import { ref } from "firebase/database";
-import { get } from "firebase/database";
-import { set } from "firebase/database";
-import { onValue } from "firebase/database";
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
+import Pusher from "pusher-js";
 import type { ReactNode } from 'react';
 import React, { useEffect,useState } from "react";
 
@@ -61,51 +50,35 @@ const Main = (props: IMainProps) => {
    
   }, []);
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCC713jE4YDK__Hmva3lSKpfGpwzipMQE4",
-    authDomain: "gakuniq.firebaseapp.com",
-    databaseURL: "https://gakuniq-default-rtdb.firebaseio.com",
-    projectId: "gakuniq",
-    storageBucket: "gakuniq.appspot.com",
-    messagingSenderId: "830079995518",
-    appId: "1:830079995518:web:efd75ca7cd84f4af33922f",
-    measurementId: "G-BL34RN4SSX",
-  };
+  useEffect(() => {
+ 
+    const pusher = new Pusher("d1cd58ebe9c30c38dc6c", {
+      cluster: "ap1",
+    });
 
-  const app = initializeApp(firebaseConfig);
+    const channel = pusher.subscribe("chat");
+    channel.bind("message", function (data) {
+      setMessages([...messages, data]);
+    });
 
-  const db = getDatabase(app);
+    return () => {
+      channel.unbind_all();
+      channel.unsubscribe();
+    };
+  });
+
+
 
   const sendMessage = async () => {
-    const timestamp = Date.now();
-    const tgl = new Date(timestamp).toLocaleString();
-    const messageObject = {
-      id: timestamp,
-      username: user?.nama_depan,
-      message: message,
-      timestamp: tgl,
-      room: "room2",
-    };
-    await set(ref(db, "messages/" + timestamp), messageObject);
-    setMessage("");
+    await axios
+      .post("/api/chat", {
+        username:  user?.nama_depan,
+        message: message,
+      })
+      .then((res) => {
+        setMessage("");
+      });
   };
-
-  useEffect(() => {
-    onValue(ref(db, "messages"), (snapshot) => {
-      const data = snapshot.val();
-      const messages = [];
-      for (const id in data) {
-        messages.push({ id, ...data[id] });
-      }
-      setMessages(messages);
-    });
-  }, []);
-
-  // filter messages by room
-  const filteredMessages = messages.filter(
-    (message) => message.room === "room2"
-  );
-  console.log(filteredMessages);
 
   return (
     <>
@@ -193,7 +166,7 @@ const Main = (props: IMainProps) => {
                marginTop: "auto",
              }}
              onSubmit={(e) => {
-                e.preventDefault();
+               e.preventDefault();
                sendMessage();
              }}
            >
