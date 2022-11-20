@@ -194,8 +194,6 @@ const MyProfiles = () => {
       });
   };
 
-  console.log(history);
-
   useEffect(() => {
     getHistory();
     getVoucher();
@@ -791,10 +789,7 @@ const MyProfiles = () => {
               )}
             </div>
 
-            <div
-              onMouseEnter={() => console.log('enter')}
-              className="flex flex-col items-center justify-center w-[50vw] bg-slate-100 min-h-8 mx-1 p-3 mt-1 rounded-lg cursor-pointer"
-            >
+            <div className="flex flex-col items-center justify-center w-[50vw] bg-slate-100 min-h-8 mx-1 p-3 mt-1 rounded-lg cursor-pointer">
               <h1 className="text-lg font-bold text-slate-800 mb-3">
                 Voucher Saya
               </h1>

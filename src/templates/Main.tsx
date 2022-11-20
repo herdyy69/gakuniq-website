@@ -1,8 +1,18 @@
+/* eslint-disable @typescript-eslint/dot-notation */
+/* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable react/jsx-key */
+/* eslint-disable object-shorthand */
+/* eslint-disable unused-imports/no-unused-vars */
+/* eslint-disable func-names */
+/* eslint-disable prettier/prettier */
 /* eslint-disable @next/next/inline-script-id */
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
+import Pusher from "pusher-js";
 import type { ReactNode } from 'react';
-import React, { useState } from 'react';
+import React, { useEffect,useState } from "react";
+
+import axios from '@/lib/axios';
 
 import Footer from './Footer';
 import Navbar from './Navbar';
@@ -16,9 +26,59 @@ const Main = (props: IMainProps) => {
 
   const router = useRouter();
   const token = Cookies.get('token');
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
+  const [user, setUser] = useState();
   const [chatOpen, setChatOpen] = useState(false);
-  const [message, setMessage] = useState('');
+  const [username, setUsername] = useState();
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState('test');
+
+  const getUser = async () => {
+    await axios
+      .get('/api/user')
+      .then((res) => {
+        setUser(res.data.data[0]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+      getUser();
+   
+  }, []);
+
+  useEffect(() => {
+ 
+    const pusher = new Pusher("d1cd58ebe9c30c38dc6c", {
+      cluster: "ap1",
+    });
+
+    const channel = pusher.subscribe("chat");
+    channel.bind("message", function (data) {
+      setMessages([...messages, data]);
+    });
+
+    return () => {
+      channel.unbind_all();
+      channel.unsubscribe();
+    };
+  });
+
+
+
+  const sendMessage = async () => {
+    await axios
+      .post("/api/chat", {
+        username:  user?.nama_depan,
+        message: message,
+      })
+      .then((res) => {
+        setMessage("");
+      });
+  };
 
   return (
     <>
@@ -60,66 +120,79 @@ const Main = (props: IMainProps) => {
         </div>
       )}
       {chatOpen && (
-        <div className="fixed bottom-0 right-0 w-[50vw] max-h-[50vh] bg-slate-800 z-[1002] p-3 rounded-tl-lg overflow-y-scroll">
-          <div className="flex flex-row items-center justify-between w-full">
-            <h1 className="sm:text-sm text-xs font-medium text-slate-50">
-              Chat Admin
-            </h1>
-            <button
-              onClick={() => setChatOpen(false)}
-              className="btn btn-circle btn-outline btn-xs sm:btn-sm"
-            >
-              X
-            </button>
-          </div>
-          <div className="flex flex-col items-start justify-start w-full overflow-y-scroll">
-            <div className="flex flex-row items-center justify-start w-full mt-2">
-              <span className="text-sm bg-slate-700 rounded-full p-2 mr-1">
-                GNQ
-              </span>
-              <div className="flex flex-col items-start justify-start w-full bg-slate-700 p-2 rounded-lg">
-                <h1 className="sm:text-sm text-xs font-medium text-slate-50">
-                  Halo, ada yang bisa kami bantu?
-                </h1>
-              </div>
-            </div>
-            <div className="flex flex-row items-center justify-start w-full mt-2">
-              <span className="text-sm bg-slate-700 rounded-full p-2 mr-1">
-                ME
-              </span>
-              <div className="flex flex-col items-start justify-start w-full bg-slate-700 p-2 rounded-lg">
-                <h1 className="sm:text-sm text-xs font-medium text-slate-50">
-                  gAK ADA tUH!{' '}
-                </h1>
-              </div>
-            </div>
-
-            <div className="flex flex-row items-center justify-start mt-[4rem] mx-2">
-              <input
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                type="text"
-                className="input input-bordered input-lg h-[3rem] bg-slate-50 text-slate-800"
-              />
-              <button className="btn btn-circle btn-outline btn-md mx-3">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-        </div>
+           <div
+           className="fixed bottom-0 right-0 w-full h-full bg-slate-700 z-[5000] overflow-y-scroll flex flex-col min-h-[100vh] max-w-[30vw] pb-4"
+         >
+           <h1
+            className="text-white text-2xl font-bold mb-5 bg-slate-800 w-full p-4"
+           >
+              Chat Admin <span className="text-xs">Beta</span> 
+              <span className="float-right cursor-pointer" onClick={() => setChatOpen(false)}>X</span>
+           </h1>
+           <div>
+             {messages.map((message) => (
+               <div
+               className="px-5"
+                 style={{
+                   display: "flex",
+                   justifyContent:
+                     message.username === username ? "flex-end" : "flex-start",
+                   paddingBottom: "1em",
+                 }}
+               >
+                 <div
+                   style={{
+                     background:
+                       message.username === username ? "#58bf56" : "#e5e6ea",
+                     color: message.username === username ? "white" : "black",
+                     padding: "1em",
+                     borderRadius: "1em",
+                   }}
+                 >
+                   <p style={{ fontWeight: "bold", margin: 0 }}>
+                     {message.username}
+                   </p>
+                   <p style={{ fontSize: "0.8em" }}>{message.message}</p>
+                 </div>
+               </div>
+             ))}
+           </div>
+           <form
+             style={{
+               display: "flex",
+               flexDirection: "row",
+               alignItems: "center",
+               justifyContent: "space-evenly",
+               marginTop: "auto",
+             }}
+             onSubmit={(e) => {
+               e.preventDefault();
+               sendMessage();
+             }}
+           >
+             <div style={{ display: "flex", flexDirection: "column", bottom: "0" }}>
+               <input
+                 type="text"
+                 className="input input-bordered w-full"
+                 value={message}
+                 onChange={(e) => setMessage(e.target.value)}
+               />
+             </div>
+             <button
+               style={{
+                 padding: "10px",
+                 backgroundColor: "#58bf56",
+                 color: "white",
+                 border: "none",
+                 borderRadius: "5px",
+                 cursor: "pointer",
+               }}
+               type="submit"
+             >
+               Send
+             </button>
+           </form>
+         </div>
       )}
       <div className="w-full px-1 text-slate-800 antialiased">
         {props.meta}
