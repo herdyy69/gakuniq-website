@@ -84,7 +84,7 @@ const Main = (props: IMainProps) => {
       username: user?.nama_depan,
       message: message,
       timestamp: tgl,
-      room: "room2",
+      room: user?.id
     };
     await set(ref(db, "messages/" + timestamp), messageObject);
     setMessage("");
@@ -103,7 +103,7 @@ const Main = (props: IMainProps) => {
 
   // filter messages by room
   const filteredMessages = messages.filter(
-    (message) => message.room === "room2"
+    (message) => message.room === user?.id
   );
   console.log(filteredMessages);
 
@@ -157,21 +157,21 @@ const Main = (props: IMainProps) => {
               <span className="float-right cursor-pointer" onClick={() => setChatOpen(false)}>X</span>
            </h1>
            <div>
-             {messages.map((message) => (
+             {filteredMessages.map((message) => (
                <div
                className="px-5"
                  style={{
                    display: "flex",
                    justifyContent:
-                     message.username === username ? "flex-end" : "flex-start",
+                     message.username === user?.nama_depan ? "flex-end" : "flex-start",
                    paddingBottom: "1em",
                  }}
                >
                  <div
                    style={{
                      background:
-                       message.username === username ? "#58bf56" : "#e5e6ea",
-                     color: message.username === username ? "white" : "black",
+                       message.username === user?.nama_depan ? "#58bf56" : "#e5e6ea",
+                     color: message.username === user?.nama_depan ? "white" : "black",
                      padding: "1em",
                      borderRadius: "1em",
                    }}

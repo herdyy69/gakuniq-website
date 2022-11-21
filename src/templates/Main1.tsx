@@ -52,7 +52,7 @@ const Main = (props: IMainProps) => {
 
   useEffect(() => {
  
-    const pusher = new Pusher("d1cd58ebe9c30c38dc6c", {
+    const pusher = new Pusher("e5629914085967e9203a", {
       cluster: "ap1",
     });
 

@@ -32,6 +32,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.6.0",
+    "react-rating": "^2.0.5",
     "react-search-autocomplete": "^8.1.0",
     "sharp": "^0.31.2",
     "smooth-scrollbar": "^8.8.1",
