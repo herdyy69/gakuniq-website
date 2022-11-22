@@ -45,6 +45,7 @@ const Main = (props: IMainProps) => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('test');
 
+
   const getUser = async () => {
     await axios
       .get('/api/user')
@@ -52,12 +53,14 @@ const Main = (props: IMainProps) => {
         setUser(res.data.data[0]);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
   useEffect(() => {
+     if (token) {
       getUser();
+    }
    
   }, []);
 
@@ -101,11 +104,9 @@ const Main = (props: IMainProps) => {
     });
   }, []);
 
-  // filter messages by room
   const filteredMessages = messages.filter(
     (message) => message.room === user?.id
   );
-  console.log(filteredMessages);
 
   return (
     <>

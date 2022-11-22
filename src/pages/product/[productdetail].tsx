@@ -11,6 +11,8 @@ import 'swiper/css/navigation';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
+import Rating from 'react-rating';
 import { Navigation, Pagination, Parallax } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -33,14 +35,16 @@ const DetailProduct = () => {
   const [confirmation, setConfirmation] = useState();
 
   const GetValue = async () => {
-    await axios
-      .get('/api/all/user')
-      .then((res) => {
-        setUser(res.data.data[0]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (token) {
+      await axios
+        .get('/api/all/user')
+        .then((res) => {
+          setUser(res.data.data[0]);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
     await axios
       .get('/api/keranjang')
       .then((res) => {
@@ -186,12 +190,12 @@ const DetailProduct = () => {
                     data-swiper-parallax="-200"
                   >
                     <img
-                      src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${products?.gambar_produk3}`}
+                      src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${products?.gambar_produk1}`}
                       alt=""
                       className="max-w-[150px] h-auto object-cover my-1"
                     />
                     <img
-                      src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${products?.gambar_produk3}`}
+                      src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${products?.gambar_produk2}`}
                       alt=""
                       className="max-w-[150px] h-auto object-cover my-1"
                     />
@@ -352,11 +356,16 @@ const DetailProduct = () => {
                     <h1 className="text-lg font-medium text-slate-800 uppercase">
                       {item?.user?.nama_depan} {item?.user?.nama_belakang}
                     </h1>
+                    <span className="text-base font-bold text-yellow-400 mt-1">
+                      <Rating
+                        emptySymbol={<AiOutlineStar />}
+                        fullSymbol={<AiFillStar />}
+                        initialRating={item?.rating}
+                        readonly
+                      />
+                    </span>
                     <span className="text-sm font-normal text-slate-800">
                       {item?.komen}
-                    </span>
-                    <span className="text-xs font-bold text-slate-800 mt-3">
-                      {item?.status}
                     </span>
                   </div>
                 ))

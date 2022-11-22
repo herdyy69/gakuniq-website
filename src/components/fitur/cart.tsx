@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 /* eslint-disable radix */
 /* eslint-disable unused-imports/no-unused-vars */
 /* eslint-disable @typescript-eslint/dot-notation */
@@ -29,7 +30,7 @@ const Cart = () => {
         setCart(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
     await axios
       .get('/api/produk')
@@ -37,7 +38,7 @@ const Cart = () => {
         setProducts(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
   const deleteCart = async (id) => {
@@ -47,7 +48,7 @@ const Cart = () => {
         setConfirmation('Berhasil menghapus produk dari keranjang');
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
   const deleteAllCart = async () => {
@@ -57,7 +58,7 @@ const Cart = () => {
         setConfirmation('Berhasil menghapus semua produk dari keranjang');
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
@@ -108,9 +109,16 @@ const Cart = () => {
                   className="form-checkbox h-5 w-5 text-slate-600 rounded-md focus:outline-none focus:ring-0 focus:border-slate-500 mx-2"
                 />
                 <img
+                  onClick={(e) => {
+                    e.preventDefault();
+                    router.push({
+                      pathname: `/product/${item.name}`,
+                      query: { id: item.id },
+                    });
+                  }}
                   src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${item?.produk.gambar_produk1}`}
                   alt="gambar"
-                  className="h-w-16 w-16 rounded-md"
+                  className="h-w-16 w-16 rounded-md cursor-pointer"
                 />
                 <div className="flex flex-col items-start justify-center ml-2">
                   <h1 className="sm:text-sm text-xs font-medium text-slate-50">

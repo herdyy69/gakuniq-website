@@ -30,6 +30,9 @@ const Discount = () => {
       .post('/api/wishlist/create', { produk_id: id })
       .then((res) => {
         setConfirmation(res.data.message);
+        setTimeout(() => {
+          router.reload();
+        }, 1000);
       })
       .catch((err) => {
         setErr(err.response.data.message);
@@ -99,9 +102,16 @@ const Discount = () => {
                   className="flex flex-col justify-start items-start bg-gray-400 p-4 rounded-lg max-w-[20rem] md:max-w-[15rem] border-2 m-2"
                 >
                   <img
+                    onClick={(e) => {
+                      e.preventDefault();
+                      router.push({
+                        pathname: `/product/${item.name}`,
+                        query: { id: item.id },
+                      });
+                    }}
                     src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${item.gambar_produk1}`}
                     alt={item.gambar_produk1}
-                    className="md:w-48 rounded-md my-1 mb-2 mx-auto"
+                    className="md:w-48 rounded-md my-1 mb-2 mx-auto cursor-pointer"
                   />
                   <div className="flex flex-col justify-center items-start mx-1">
                     <h1 className="text-base font-bold text-slate-800">
@@ -168,7 +178,7 @@ const Discount = () => {
                           if (user) {
                             wishlist?.find((x) => x.produk_id === item.id)
                               ? setConfirmation('Produk sudah ada di wishlist')
-                              : addToWishlist(item.id) || router.reload();
+                              : addToWishlist(item.id);
                           } else {
                             setConfirmation('Silahkan login terlebih dahulu');
                           }

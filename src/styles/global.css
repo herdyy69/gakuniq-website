@@ -1,4 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap');
 @tailwind base;
+
+@layer base {
+  html {
+    font-family: 'Open Sans', sans-serif;
+    scroll-behavior: smooth;
+  }
+}
 
 a {
   @apply text-slate-800;
@@ -8,7 +16,7 @@ h1 {
   @apply text-lg;
 }
 
-
+/* set font to all component */
 
 @tailwind components;
 
@@ -35,8 +43,6 @@ body {
 input[type=number] {
   -moz-appearance: textfield;
 }
-
-make scrollbar transparent and smooth
 
 
 #my-scrollbar {

@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable unused-imports/no-unused-vars */
@@ -104,6 +105,9 @@ const DynamicKategori = () => {
     },
   ];
 
+  // make a data from products is random for a place of products
+  const randomProducts = products?.sort(() => Math.random() - 0.5);
+
   return (
     <Main
       meta={
@@ -184,15 +188,22 @@ const DynamicKategori = () => {
 
       {products ? (
         <div className="flex flex-row flex-wrap items-stretch self-auto justify-start">
-          {products?.map((item) => (
+          {randomProducts?.map((item) => (
             <div
               key={item.id}
               className="flex flex-col justify-start items-start bg-gray-400 p-4 rounded-lg max-w-[20rem] md:max-w-[15rem] border-2 m-2"
             >
               <img
+                onClick={(e) => {
+                  e.preventDefault();
+                  router.push({
+                    pathname: `/product/${item.name}`,
+                    query: { id: item.id },
+                  });
+                }}
                 src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${item.gambar_produk1}`}
                 alt={item.gambar_produk1}
-                className="md:w-48 rounded-md my-1 mb-2 mx-auto"
+                className="md:w-48 rounded-md my-1 mb-2 mx-auto cursor-pointer"
               />
               <div className="flex flex-col justify-center items-start mx-1">
                 <h1 className="text-base font-bold text-slate-800">

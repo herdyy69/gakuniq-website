@@ -493,7 +493,7 @@ const Autentikasi = () => {
               <div className="flex flex-row justify-center my-2">
                 <button
                   type="submit"
-                  className="btn btn-primary btn-block w-full max-w-[100%]"
+                  className="btn btn-primary w-full max-w-[100%]"
                 >
                   Daftar
                 </button>

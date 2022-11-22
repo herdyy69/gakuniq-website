@@ -125,9 +125,16 @@ const Wishlist = () => {
             >
               <div className="flex flex-row items-center justify-start">
                 <img
+                  onClick={(e) => {
+                    e.preventDefault();
+                    router.push({
+                      pathname: `/product/${item.name}`,
+                      query: { id: item.id },
+                    });
+                  }}
                   src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${item.produk.gambar_produk1}`}
                   alt="gambar"
-                  className="h-16 w-16 rounded-md"
+                  className="h-16 w-16 rounded-md cursor-pointer"
                 />
                 <div className="flex flex-col items-start justify-center ml-2">
                   <h1

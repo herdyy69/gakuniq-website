@@ -19,6 +19,9 @@ import Cookies from 'js-cookie';
 import { Meta } from '@/layouts/Meta';
 import { Main } from '@/templates/Main';
 
+import Rating from 'react-rating';
+import { AiOutlineStar, AiFillStar } from 'react-icons/ai';
+
 const MyProfiles = () => {
   const router = useRouter();
   const token = Cookies.get('token');
@@ -676,7 +679,6 @@ const MyProfiles = () => {
                           </label>
                         </div>
                       ) : item.status === 'sukses' ? (
-                        // button for modal review
                         <>
                           <label
                             htmlFor="my-modal-6"
@@ -695,38 +697,25 @@ const MyProfiles = () => {
                                 Review Produk
                               </h3>
                               <div className="rating">
-                                <input
-                                  type="radio"
-                                  name="rating-1"
-                                  className="mask mask-star bg-orange-400"
-                                  onClick={() =>
-                                    setRating('Gak Recommended Banget')
+                                <Rating
+                                  onClick={(e) => {
+                                    setRating(e);
+                                  }}
+                                  emptySymbol={
+                                    <AiOutlineStar
+                                      style={{
+                                        color: 'yellow',
+                                        fontSize: '2rem',
+                                      }}
+                                    />
                                   }
-                                />
-                                <input
-                                  type="radio"
-                                  name="rating-1"
-                                  className="mask mask-star bg-orange-400"
-                                  onClick={() => setRating('Gak Recommended')}
-                                />
-                                <input
-                                  type="radio"
-                                  name="rating-1"
-                                  className="mask mask-star bg-orange-400"
-                                  onClick={() => setRating('Biasa Saja')}
-                                />
-                                <input
-                                  type="radio"
-                                  name="rating-1"
-                                  className="mask mask-star bg-orange-400"
-                                  onClick={() => setRating('Recommended')}
-                                />
-                                <input
-                                  type="radio"
-                                  name="rating-1"
-                                  className="mask mask-star bg-orange-400"
-                                  onClick={() =>
-                                    setRating('Recommended Banget')
+                                  fullSymbol={
+                                    <AiFillStar
+                                      style={{
+                                        color: 'yellow',
+                                        fontSize: '2rem',
+                                      }}
+                                    />
                                   }
                                 />
                               </div>
@@ -744,7 +733,7 @@ const MyProfiles = () => {
                                     axios
                                       .post(`/api/review_produk/create`, {
                                         transaksi_id: item.id,
-                                        status: rating,
+                                        rating,
                                         komen: review,
                                       })
                                       .then((res) => {
