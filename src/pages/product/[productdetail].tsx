@@ -42,7 +42,7 @@ const DetailProduct = () => {
           setUser(res.data.data[0]);
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
         });
     }
     await axios
@@ -51,7 +51,7 @@ const DetailProduct = () => {
         setCart(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
     await axios
       .get(`/api/produk/${params}`)
@@ -59,7 +59,7 @@ const DetailProduct = () => {
         setProducts(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
     await axios
       .get(`/api/sub_kategori`)
@@ -67,7 +67,7 @@ const DetailProduct = () => {
         setSubCategory(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
     await axios
       .get(`/api/review_produk/${params}`)
@@ -75,7 +75,7 @@ const DetailProduct = () => {
         setReview(res.data.data);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 
